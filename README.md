@@ -3,9 +3,6 @@
   <a href="https://github.com/DavidMacak/ConverterProjectPublic">
     <img src="ConverterProject.Web/wwwroot/images/logo-sm.png" alt="Logo" height="40">
   </a>
-
-  <h3 align="center">ConverterProject</h3>
-
   <p align="center">
     <a href="https://davakconverter.azurewebsites.net/">View Demo</a>
   </p>
