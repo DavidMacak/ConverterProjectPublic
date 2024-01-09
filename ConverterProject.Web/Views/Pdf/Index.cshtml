@@ -1,0 +1,52 @@
+﻿@using ConverterProject.Web.Models.Types
+@using ConverterProject.Web.Models
+@using Microsoft.AspNetCore.Http
+@model List<FileModel>
+@{
+    ViewData["Title"] = "PDF konvertor";
+}
+<div class="container-fluid p-4 h1-bg mb-4">
+    <div class="container-lg text-center align-content-center text-light">
+        <h1 class="mb-0">Konverze emailů do PDF</h1>
+    </div>
+</div>
+<div class="container">
+    <div class="container text-block-700 text-center">
+        @if (Model.Count < 10)
+        {
+            <p>
+                Vyberte soubory EML nebo MSG které chcete konvertovat do PDF.
+                <br />
+                Nebo je přetáhněte kdekoliv na stránku.
+            </p>
+
+            <form asp-controller="FileUpload" asp-action="UploadEmail" enctype="multipart/form-data" class="mb-4">
+                <div id="dropZone"></div>
+                <input type="file" id="filesToUpload" name="filesToUpload" multiple accept=".eml, .msg" />
+                <input class="btn btn-submit" type="submit" value="Konvertovat" />
+            </form>
+            <div id="fileList">
+                <ul id="uploadedFiles" class="no-bullets"></ul>
+            </div>
+        }
+        else
+        {
+            <p>Jestli chcete konvertovat další soubory, smažte současné.</p>
+        }
+
+        @{
+            if (Model != null && Model.Count > 0)
+            {
+                <h2>Zde jsou vaše PDF ke stažení </h2>
+                <p>Limit: (@(Model.Count)/10)</p>
+                <p>Soubory jsou k dispozici 15 minut po konverzi.</p>
+
+                <div id="fileTable"></div>
+
+            }
+        }
+    </div>
+</div>
+<script src="@Url.Content("~/js/dragndrop.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/js/showfilestoupload.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/js/getfilesajax.js")" type="text/javascript"></script>

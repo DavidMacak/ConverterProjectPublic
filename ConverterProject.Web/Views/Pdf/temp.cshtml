@@ -1,0 +1,110 @@
+﻿@using ConverterProject.Web.Models.Types
+@using ConverterProject.Web.Models
+@using Microsoft.AspNetCore.Http
+@model List<FileModel>
+@{
+    ViewData["Title"] = "PDF konvertor";
+}
+
+<div class="container-fluid p-4 h1-bg mb-4">
+    <div class="container-lg text-center align-content-center text-light">
+        <h1 class="mb-0">Konverze emailů do PDF</h1>
+    </div>
+</div>
+<div class="container">
+    <div class="container text-block-700 text-center">
+        @if (Model.Count < 10)
+        {
+            <p class="mb-3">
+                Vyberte soubory EML nebo MSG které chcete konvertovat do PDF.
+            </p>
+            <form asp-controller="FileUpload" asp-action="UploadEmail" enctype="multipart/form-data" class="mb-4">
+                <input type="file" name="filesToUpload" multiple accept=".eml, .msg" />
+                <input class="btn btn-submit" type="submit" value="Konvertovat" />
+            </form>
+        }
+        else
+        {
+            <p>Jestli chcete konvertovat další soubory, smažte současné.</p>
+        }
+        @if (Model != null && Model.Count > 0)
+        {
+            <h2>Zde jsou vaše PDF ke stažení </h2>
+            <p>Limit: (@(Model.Count)/10)</p>
+            <p>Soubory jsou k dispozici 5 minut po konverzi. Dokonce i když znovu načtete stránku.</p>
+            <form method="get">
+                <table class="table table-bordered">
+                    <tr>
+                        <th></th>
+                        <th>Soubor</th>
+                        <th></th>
+                    </tr>
+                    @foreach (var file in Model)
+                    {
+                        <tr>
+                            <td>
+                                @if (file.StatusType == StatusType.Converted || file.StatusType == StatusType.Downloaded)
+                                {
+                                    <a type="submit" class="btn btn-submit-red" asp-controller="Pdf" asp-action="DeleteFile" asp-route-filename="@file.TemporaryFileName">X</a>
+                                }
+                            </td>
+                            <td>
+                                <p>@file.OriginalFileName</p>
+                            </td>
+                            <td>
+                                @if (file.StatusType == StatusType.Converted || file.StatusType == StatusType.Downloaded)
+                                {
+                                    <a type="submit" class="btn btn-submit" asp-controller="Pdf" asp-action="DownloadPdf" asp-route-filename="@file.TemporaryFileName">Stáhnout</a>
+                                }
+                                else if (file.StatusType == StatusType.InQueue)
+                                {
+                                    <p>Soubor čeká ve frontě...</p>
+                                }
+                                else if (file.StatusType == StatusType.InConversion)
+                                {
+                                    <p>Soubor se konvertuje...</p>
+                                }
+                                else if (file.StatusType == StatusType.Uploaded)
+                                {
+                                    <p>Soubor úspěšně nahraný...</p>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </form>
+            @if (Model.Count > 1)
+            {
+                <form method="post" asp-controller="Pdf" asp-action="DownloadAll">
+                    <btn class="btn btn-submit" type="submit">Stáhnout vše</btn>
+                </form>
+            }
+        }
+    </div>
+</div>
+
+<tr>
+    <th>
+    </th>
+    <th>Soubor</th>
+    <th>
+    </th>
+</tr>
+<tr>
+    <td>
+        <a type="submit" class="btn btn-submit-red" href="/Pdf/DeleteFile?filename=2d8374f6-ee3d-46f1-bb74-6e663686e61e">X</a>
+    </td>
+    <td>ZměnymožnostífakturaceprodítěnaGooglePlay</td>
+    <td>
+        <a type="submit" class="btn btn-submit" href="/Pdf/DownloadPdf?filename=2d8374f6-ee3d-46f1-bb74-6e663686e61e">Stáhnout</a>
+    </td>
+</tr>
+<tr>
+    <td>
+        <a type="submit" class="btn btn-submit-red" href="/Pdf/DeleteFile?filename=a5b98ff7-d529-41f8-aa37-55421cb29e8d">X</a>
+    </td>
+    <td>PoložkaVoidCrewzVašehoseznamupřáníjeveslevě!</td>
+    <td>
+        <a type="submit" class="btn btn-submit" href="/Pdf/DownloadPdf?filename=a5b98ff7-d529-41f8-aa37-55421cb29e8d">Stáhnout</a>
+    </td>
+</tr>
