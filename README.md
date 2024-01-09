@@ -27,7 +27,7 @@ Simple web eml/msg to pdf converter.
 1. Get iText license at https://itextpdf.com/
 2. Clone the repo
 ```sh
-git clone https://github.com/DavidMacak/ConverterProject.git
+git clone https://github.com/DavidMacak/ConverterProjectPublic.git
 ```
 3. Rename your itext license key to `itextkey.json` and move it to project root folder.
 4. In program.cs you this this for local deployment:
