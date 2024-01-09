@@ -31,6 +31,7 @@ git clone https://github.com/DavidMacak/ConverterProjectPublic.git
 ```
 3. Rename your itext license key to `itextkey.json` and move it to project root folder.
 4. In program.cs you this this for local deployment:
+
     //builder.Services.AddTransient<IFileService, BlobService>();
     builder.Services.AddTransient<IFileService, LocalFileService>();
 
@@ -40,6 +41,7 @@ git clone https://github.com/DavidMacak/ConverterProjectPublic.git
 3. Create 2 containers `tobeconverted` and `converted`
 4. Put your Blob Storage connections string in `appsettings.json`
 5. In program.cs comment LocalFileService and uncomment BlobService:
+
     builder.Services.AddTransient<IFileService, BlobService>();
     //builder.Services.AddTransient<IFileService, LocalFileService>();
 
@@ -52,7 +54,7 @@ git clone https://github.com/DavidMacak/ConverterProjectPublic.git
  - [ ] Hash uploaded files.
  - [ ] Limit daily usage.
  - [ ] Better frontend
- - [ ] Use .NET Queue<T>
+ - [ ] Use .NET Queue
  - [ ] Unit tests
 
 
